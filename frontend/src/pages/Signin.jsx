@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { animate, motion } from 'framer-motion';
 import Input from './../components/Input';
 import { Lock, Mail, Scale, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import PasswordCheck from './../components/PasswordCheck';
+
 
 
 
@@ -14,11 +17,14 @@ export default function Signin() {
     const handelSubmit = (e)=>{
         e.preventDefault();
     }
+
+    console.log('hi');
+    
     return <motion.div
         initial= {{opacity: 0, y: 20}}
         animate = {{opacity: 1 , y: 0}}
         transition={{duration: 0.5}}
-        className='max-w-md w-full bg-gray-800 bg-opacity-50 rounded-2xl backdrop-filter backdrop-blur-xl px-8 shadow-xl overflow-hidden'
+        className='max-w-md w-full bg-gray-800 relative bg-opacity-50 pb-14 rounded-2xl backdrop-filter backdrop-blur-xl px-8 shadow-xl overflow-hidden'
     >
         <div className='pt-8 w-full'>
                 <h2 className=' bg-gradient-to-r text-transparent bg-clip-text font-bold text-center text-2xl from-green-700 to-green-500'>Create Account</h2>
@@ -69,6 +75,16 @@ export default function Signin() {
                  >
                     Sign Up
                  </motion.button>
+
+                 
         </form>
+        
+         {/*  */}
+                 <PasswordCheck password={password} />
+        {/* Footer Of Div SignUp */}
+                 <div className='bg-gray-900 bg-opacity-50 py-3 text-sm absolute right-0 left-0 bottom-0 w-full flex justify-center text-gray-400 '>
+                    <p>Already have an account?</p>
+                    <Link className= 'ml-2 text-green-600 hover:underline ' to = {''}>Login</Link>
+                 </div>
     </motion.div>
 }
