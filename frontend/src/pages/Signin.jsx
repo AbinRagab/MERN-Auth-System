@@ -84,7 +84,7 @@ export default function Signin() {
         {/* Footer Of Div SignUp */}
                  <div className='bg-gray-900 bg-opacity-50 py-3 text-sm absolute right-0 left-0 bottom-0 w-full flex justify-center text-gray-400 '>
                     <p>Already have an account?</p>
-                    <Link className= 'ml-2 text-green-600 hover:underline ' to = {''}>Login</Link>
+                    <Link className= 'ml-2 text-green-600 hover:underline ' to = {'/login'}>Login</Link>
                  </div>
     </motion.div>
 }
