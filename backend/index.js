@@ -3,12 +3,16 @@ import { dbConnect } from './DB/dbConnection.js'
 import dotenv from 'dotenv'
 import authRouter from './modules/User/user.routes.js'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 const app = express()
 
 const port = 5000
 
 dotenv.config()
+
+app.use(cors())
+
 app.use(express.json())
 app.use(cookieParser())
 
