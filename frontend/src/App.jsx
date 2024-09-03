@@ -3,6 +3,7 @@ import Layout from "./components/Layout.jsx"
 import Login from "./pages/Login.jsx"
 import Signin from "./pages/Signin.jsx"
 import EmailVerification from "./pages/EmailVerification.jsx"
+import { Toaster } from "react-hot-toast"
 
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
 function App() {
   return<>
       <RouterProvider router={router} />
+      <Toaster />
   </>
 }
 

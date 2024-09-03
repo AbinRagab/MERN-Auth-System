@@ -14,15 +14,15 @@ export default function Signin() {
     const [name, setName] = useState(null)
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
-    const {signup, isloading, error,userSuccess}= useAuthSrore()
+    const {signup, isloading, error}= useAuthSrore()
     const navigateTo = useNavigate()
 
     const handelSubmit = async (e)=>{
         e.preventDefault();
 
         try {
-         await signup(name, email, password)
-         userSuccess? navigateTo('/vrefiy-email'):''
+        await signup(name, email, password)      
+         navigateTo('/vrefiy-email')
         } catch (error) {
             console.log(error);
         }

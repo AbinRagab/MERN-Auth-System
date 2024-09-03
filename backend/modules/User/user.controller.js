@@ -69,7 +69,8 @@ export const confirmEmail = asyncHandler(async(req, res, next)=>{
     // res
     res.status(200).json({
         success: true,
-        message: "Your Account Activated Successfully"
+        message: "Your Account Activated Successfully",
+        user,
     })
 })
 

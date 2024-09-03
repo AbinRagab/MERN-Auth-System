@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuthSrore } from '../store/authStore';
+import { Loader } from 'lucide-react';
+import toast from 'react-hot-toast'
+
 
 export default function EmailVerification() {
+
     const [inputsCode, setInputsCode] = useState(["","","","","",""])
-    const [isLoading, setIsLoading] = useState(false)
     const inputRefs = useRef([])
     const navto = useNavigate()
+    const {confirmEmail, isLoading, userSuccess,error} = useAuthSrore()
 
     const handelChange = (index, value)=>{
         let newCode = [...inputsCode]
@@ -34,20 +39,26 @@ export default function EmailVerification() {
             }
         }
     }
+
     const handelKeyDown = (index, e)=>{
 
         if(e.key =='Backspace' && !inputsCode[index] && index > 0 ){
             inputRefs.current[index-1].focus()
         }
         
-    
     }
 
-    const handelSubmit = (e) =>{
+    const handelSubmit = async (e) =>{
         e.preventDefault();
         const verification = inputsCode.join("")
 
-        console.log('THe Code Is', verification)
+        try {
+            await confirmEmail(verification)
+            navto('/')
+            toast.success('Email Vrefied SuccessFully')
+        } catch (error) {
+            console.log(error);
+        }
     }   
 
     useEffect(()=>{
@@ -55,6 +66,7 @@ export default function EmailVerification() {
             handelSubmit(new Event("submit"))
         }
     },[inputsCode])
+
   return <>
     <motion.div
         initial= {{opacity:0, y: -50}}
@@ -91,7 +103,7 @@ export default function EmailVerification() {
                     })
                 }
              </div>
-
+                {error && <p className='text-red-500 font-semibold'>{error}</p>}
              <motion.button
                 whileHover={{scale: 1.02}}
                 whileTap={{scale: 0.98}}
@@ -102,7 +114,7 @@ export default function EmailVerification() {
                      hover:bg-gradient-to-r hover:from-green-500 hover:to-emerald-600
                      '          
              >
-                Vrefiy Email
+              {isLoading? <Loader className='animate-spin mx-auto' /> : "Vrefiy Email" }
              </motion.button>
         </form>
         
