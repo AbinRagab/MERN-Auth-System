@@ -1,17 +1,28 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
-import { Lock, Mail } from 'lucide-react';
+import { Loader, Lock, Mail } from 'lucide-react';
 import Input from '../components/Input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthSrore } from '../store/authStore.js';
+import toast from 'react-hot-toast';
 
 export default function Login() {
 
   const [password, setPassword]= useState()
   const [email, setEmail]= useState()
-  // const [loading, setLoading] = useState(false)
+   const {login, isloading, error, user} = useAuthSrore()
 
-  const handelSubmit = (e)=>{
+   const navto = useNavigate()
+  const handelSubmit = async (e)=>{
     e.preventDefault();
+
+    try {
+         await login(email, password)
+         navto('/dashboard')
+         toast.success(`welcome Back ${user.name}`)
+    } catch (error) {
+      console.log(error);
+    }
   }
   return <>
       <motion.div 
@@ -53,7 +64,7 @@ export default function Login() {
 
                     </div>
                  {/* password Check .. */}
-
+               {error && <p className='text-red-500 font-semibold'>{error}</p>}
                  {/* button */}
                  <motion.button
                     className='w-full rounded-lg font-bold text-gray-300 bg-gradient-to-r from-green-600 to-emerald-700 py-2 my-3 show-lg 
@@ -63,8 +74,9 @@ export default function Login() {
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
                     type='submit'
+                    disabled= {isloading}
                  >
-                    Sign Up
+                    {isloading ? <Loader className = ' animate-spin mx-auto' /> : "Sign Up"}
                  </motion.button>
 
                   

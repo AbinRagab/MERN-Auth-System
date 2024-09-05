@@ -11,7 +11,7 @@ export default function EmailVerification() {
     const [inputsCode, setInputsCode] = useState(["","","","","",""])
     const inputRefs = useRef([])
     const navto = useNavigate()
-    const {confirmEmail, isLoading, userSuccess,error} = useAuthSrore()
+    const {confirmEmail, isLoading,error} = useAuthSrore()
 
     const handelChange = (index, value)=>{
         let newCode = [...inputsCode]
@@ -54,7 +54,7 @@ export default function EmailVerification() {
 
         try {
             await confirmEmail(verification)
-            navto('/')
+            navto('/dashboard')
             toast.success('Email Vrefied SuccessFully')
         } catch (error) {
             console.log(error);

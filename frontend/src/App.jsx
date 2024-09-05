@@ -39,6 +39,7 @@ const ProtectedRoute = ({children})=>{
 const router = createBrowserRouter([
   {path: '/', element: <Layout/>, children:[
     {path: '/', element:  <ProtectedRoute><DashBoard /></ProtectedRoute>},
+    {path: '/dashboard', element:  <ProtectedRoute><DashBoard /></ProtectedRoute>},
     {path: '/signin', element: <RedirectAuthenticatedUser><Signin/></RedirectAuthenticatedUser> },
     {path: '/login', element: <RedirectAuthenticatedUser><Login/></RedirectAuthenticatedUser>},
     {path: '/vrefiy-email', element: <EmailVerification/>},

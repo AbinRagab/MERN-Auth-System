@@ -31,9 +31,9 @@ export const useAuthSrore = create((set)=>({
         set({isloading: true, error: null})
         try {
             const response = await axios.put(`http://localhost:5000/auth/confirmEmail`,{code})
-            set({user: response.data.user, isloading: false, error: null, isConfirmed: true})
+            set({user: response.data.user, isloading: false, error: null, isConfirmed: true, isAuthanticated:true})
         } catch (error) {
-            set({isloading: false, error: error.response.data.message|| "Confirming Email Failed..!", isConfirmed: false})
+            set({isloading: false, error: error.response.data.message|| "Confirming Email Failed..!", isConfirmed: false, isAuthanticated: false})
             throw error
         }
     },
@@ -53,6 +53,19 @@ export const useAuthSrore = create((set)=>({
             set({user: response.data.user, error: null, isAuthanticated: true, isAuthanticating: false})
         } catch (error) {
             set({isAuthanticated: false, isAuthanticating: false, error: null})
+        }
+    },
+    login: async(email, password)=>{
+        try {
+            set({isloading: true, error: null})
+            const response = await axios.post('http://localhost:5000/auth/login',{email, password})
+            console.log(response);
+            
+            localStorage.setItem('token', response.data?.token)
+            set({isloading: false,error: null, user: response.data?.user , isAuthanticated:true})
+        } catch (error) {
+            set({isloading: false,error: error.response?.data?.message || "Sign In Error!, Email or Password is An correct"})
+            throw error
         }
     }
 }))
