@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 
 
 export const checkToken = asyncHandler(async (req,res,next)=>{
-    const token = req.cookies.token
+    const token = req.cookies.token || req.headers.token
 
     // check token exist or not
     if(!token) return next(new Error('Un Authorized'))

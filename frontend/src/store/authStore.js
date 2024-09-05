@@ -8,6 +8,7 @@ export const useAuthSrore = create((set)=>({
     isloading: false,
     isConfirmed: false,
     isAuthanticated: false,
+    isAuthanticating: false,
     error: null,
 
 
@@ -15,9 +16,10 @@ export const useAuthSrore = create((set)=>({
         try {
             set({isloading: true, error: null})
            const response =  await axios.post('http://localhost:5000/auth/signup',{name, email,password})
-            // set({user: data})
             console.log(response);
             set({user: response.data.newUser, error: null})
+            localStorage.setItem('token', response.data.token)
+            
         } catch (error) {
             console.log(error.response.data.message);
             set({isloading: false, error: error.response.data.message|| "Error In Create Email..!"})
@@ -33,6 +35,24 @@ export const useAuthSrore = create((set)=>({
         } catch (error) {
             set({isloading: false, error: error.response.data.message|| "Confirming Email Failed..!", isConfirmed: false})
             throw error
+        }
+    },
+
+    checkAuth: async()=>{
+        set({isAuthanticating: true, error: null})
+        const token = localStorage.getItem('token')
+        // if(!token) 
+        try {
+            const response = await axios.get('http://localhost:5000/auth/check-Auth',{
+                headers: {
+                    token
+                }
+            })
+            // console.log(response);
+            
+            set({user: response.data.user, error: null, isAuthanticated: true, isAuthanticating: false})
+        } catch (error) {
+            set({isAuthanticated: false, isAuthanticating: false, error: null})
         }
     }
 }))

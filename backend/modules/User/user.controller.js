@@ -6,6 +6,7 @@ import 'cookie-parser'
 import { User } from "../../DB/models/user.model.js"
 import { createToken } from "../../utils/createToken.js"
 import { sendByEmailtrap, sendEmailForgetPassword, sendEmailUpdatedPassword, sendWelcomeEmail } from "../../sendEmail/sendByEmailtrap.js"
+import  jwt  from 'jsonwebtoken';
 
 
 // sign Up Controller
@@ -168,12 +169,17 @@ export const logout = asyncHandler(async(req,res,next)=>{
 // checkAuth
 export const checkAuth = asyncHandler(async(req,res,next)=>{
     
-    const user = await User.findById(req.id).select("-password")
+
+    const token = req.headers.token
+    console.log(token);
+    
+    const payload = jwt.verify(token, process.env.SECURETY_JWT)
+    const user = await User.findById(payload.id).select("-password")
     if(!user) return next(new Error('this User Is Not Exist!!'))
 
     // checkAuth
     res.json({
         success: true,
-        user
+        user    
     })
 })

@@ -70,7 +70,7 @@ export default function Login() {
                   
                  <div className='bg-gray-900 bg-opacity-50 py-3 text-sm absolute right-0 left-0 bottom-0 w-full flex justify-center text-gray-400 '>
                     <p>Don't have an account?</p>
-                    <Link className= 'ml-2 text-green-600 hover:underline ' to = {'/login'}>Sign Up</Link>
+                    <Link className= 'ml-2 text-green-600 hover:underline ' to = {'/signin'}>Sign Up</Link>
                  </div>
                  
         </form>
