@@ -96,10 +96,10 @@ export const useAuthSrore = create((set)=>({
     resetPassword: async (token, password)=>{
         set({isloading: true, error: null})
         try {
-            const response = await axios.post(`http://localhost:5000/auth/resetPassword/${token}`, password)
+            const response = await axios.post(`http://localhost:5000/auth/resetPassword/${token}`, {password})
             set({isloading: false, error: null})
         } catch (error) {
-            set({isloading: false, error: error.response.data.message || 'Error in Sending Url To Reset Password'})
+            set({isloading: false, error: error.response.data.message || 'Error in Reset Password'})
             throw error
         }
     }
