@@ -7,12 +7,12 @@ import { Toaster } from "react-hot-toast"
 import { useAuthSrore } from "./store/authStore.js"
 import { useEffect } from "react"
 import DashBoard from "./pages/DashBoard.jsx"
+import LoadingSpin from "./components/LoadingSpin.jsx"
 
 
 const RedirectAuthenticatedUser = ({children})=>{
     const {isAuthanticated, user} = useAuthSrore();
 
-    console.log(isAuthanticated === true && user.activation === true);
     
     if(isAuthanticated && user.activation){
         return <Navigate to = '/' replace />
@@ -54,6 +54,8 @@ function App() {
     checkAuth()
   },[checkAuth])
 
+
+  if(isAuthanticating) return <LoadingSpin />
   return<>
       <RouterProvider router={router} />
       <Toaster />

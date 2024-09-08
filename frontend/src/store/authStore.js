@@ -16,7 +16,7 @@ export const useAuthSrore = create((set)=>({
         try {
             set({isloading: true, error: null})
            const response =  await axios.post('http://localhost:5000/auth/signup',{name, email,password})
-            console.log(response);
+            // console.log(response);
             set({user: response.data.newUser, error: null})
             localStorage.setItem('token', response.data.token)
             
@@ -39,7 +39,9 @@ export const useAuthSrore = create((set)=>({
     },
 
     checkAuth: async()=>{
+
         set({isAuthanticating: true, error: null})
+        await new Promise((resolve)=> setTimeout(resolve, 2000))
         const token = localStorage.getItem('token')
         // if(!token) 
         try {
@@ -59,12 +61,25 @@ export const useAuthSrore = create((set)=>({
         try {
             set({isloading: true, error: null})
             const response = await axios.post('http://localhost:5000/auth/login',{email, password})
-            console.log(response);
+            // console.log(response);
             
             localStorage.setItem('token', response.data?.token)
             set({isloading: false,error: null, user: response.data?.user , isAuthanticated:true})
         } catch (error) {
             set({isloading: false,error: error.response?.data?.message || "Sign In Error!, Email or Password is An correct"})
+            throw error
+        }
+    },
+    logOut: async ()=>{
+        set({isloading: true, error: null})
+        try {
+            const response = await axios.post('http://localhost:5000/auth/logout').then(response => {
+                localStorage.removeItem('token');
+                console.log(response.data.message);
+                set({isloading: false, error: null, isAuthanticated: false})
+            });
+        } catch (error) {
+            set({isloading: false, error: 'logout Error', isAuthanticated: true})
             throw error
         }
     }

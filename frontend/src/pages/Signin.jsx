@@ -27,8 +27,6 @@ export default function Signin() {
             console.log(error);
         }
     }
-
-   //  console.log('hi');
     
     return <motion.div
         initial= {{opacity: 0, y: 20}}
