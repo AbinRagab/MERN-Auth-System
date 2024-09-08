@@ -8,6 +8,8 @@ import { useAuthSrore } from "./store/authStore.js"
 import { useEffect } from "react"
 import DashBoard from "./pages/DashBoard.jsx"
 import LoadingSpin from "./components/LoadingSpin.jsx"
+import ForgetPassword from "./pages/ForgetPassword.jsx"
+import ResetPassword from "./pages/ResetPassword.jsx"
 
 
 const RedirectAuthenticatedUser = ({children})=>{
@@ -42,13 +44,15 @@ const router = createBrowserRouter([
     {path: '/dashboard', element:  <ProtectedRoute><DashBoard /></ProtectedRoute>},
     {path: '/signin', element: <RedirectAuthenticatedUser><Signin/></RedirectAuthenticatedUser> },
     {path: '/login', element: <RedirectAuthenticatedUser><Login/></RedirectAuthenticatedUser>},
+    {path: '/forgetPassword', element: <RedirectAuthenticatedUser><ForgetPassword/></RedirectAuthenticatedUser>},
+    {path: '/resetPassword/:token', element: <RedirectAuthenticatedUser><ResetPassword/></RedirectAuthenticatedUser>},
     {path: '/vrefiy-email', element: <EmailVerification/>},
     // {path: '', element: ''},
   ]},
 ])
 
 function App() {
-  const {isAuthanticated , isAuthanticating , checkAuth, user} = useAuthSrore()
+  const { isAuthanticating , checkAuth} = useAuthSrore()
 
   useEffect(()=>{
     checkAuth()

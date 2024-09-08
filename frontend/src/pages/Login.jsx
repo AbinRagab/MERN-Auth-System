@@ -60,7 +60,7 @@ export default function Login() {
                  />
                    <div className='w-full'>
 
-                       <Link className= ' text-xs ml-2 text-green-600 hover:underline ' to = {'/login'}>Forget Password?</Link>
+                       <Link className= ' text-xs ml-2 text-green-600 hover:underline ' to = {'/forgetPassword'}>Forget Password?</Link>
 
                     </div>
                  {/* password Check .. */}

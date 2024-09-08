@@ -2,7 +2,7 @@ import axios from 'axios'
 import {create} from 'zustand'
 
 
-const API_URL = 'http://localhost:5000/auth/'
+// const API_URL = 'http://localhost:5000/auth/'
 export const useAuthSrore = create((set)=>({
     user: null,
     isloading: false,
@@ -80,6 +80,26 @@ export const useAuthSrore = create((set)=>({
             });
         } catch (error) {
             set({isloading: false, error: 'logout Error', isAuthanticated: true})
+            throw error
+        }
+    },
+    forgetPassword: async (email)=>{
+        set({isloading: true, error: null})
+        try {
+            const response = await axios.post('http://localhost:5000/auth/forgetPassword', {email})
+            set({isloading: false, error: null})
+        } catch (error) {
+            set({isloading: false, error: error.response.data.message || 'Error in Sending Url To Reset Password'})
+            throw error
+        }
+    },
+    resetPassword: async (token, password)=>{
+        set({isloading: true, error: null})
+        try {
+            const response = await axios.post(`http://localhost:5000/auth/resetPassword/${token}`, password)
+            set({isloading: false, error: null})
+        } catch (error) {
+            set({isloading: false, error: error.response.data.message || 'Error in Sending Url To Reset Password'})
             throw error
         }
     }
