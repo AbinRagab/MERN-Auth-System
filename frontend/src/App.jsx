@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Navigate, replace, RouterProvider } from "react-router-dom"
 import Layout from "./components/Layout.jsx"
 import Login from "./pages/Login.jsx"
 import Signin from "./pages/Signin.jsx"
@@ -47,10 +47,10 @@ const router = createBrowserRouter([
     {path: '/forgetPassword', element: <RedirectAuthenticatedUser><ForgetPassword/></RedirectAuthenticatedUser>},
     {path: '/resetPassword/:token', element: <RedirectAuthenticatedUser><ResetPassword/></RedirectAuthenticatedUser>},
     {path: '/vrefiy-email', element: <EmailVerification/>},
-    // {path: '', element: ''},
+    {path: '*', element :<Navigate to= "/login" replace />}
   ]},
 ])
-
+ 
 function App() {
   const { isAuthanticating , checkAuth} = useAuthSrore()
 

@@ -2,7 +2,7 @@ import axios from 'axios'
 import {create} from 'zustand'
 
 
-// const API_URL = 'http://localhost:5000/auth/'
+const API_URL = import.meta.env.MODE === "development"? 'http://localhost:5000/auth/':"/auth"
 export const useAuthSrore = create((set)=>({
     user: null,
     isloading: false,
@@ -15,7 +15,7 @@ export const useAuthSrore = create((set)=>({
     signup: async(name, email, password)=>{
         try {
             set({isloading: true, error: null})
-           const response =  await axios.post('http://localhost:5000/auth/signup',{name, email,password})
+           const response =  await axios.post(`${API_URL}signup`,{name, email,password})
             // console.log(response);
             set({user: response.data.newUser, error: null})
             localStorage.setItem('token', response.data.token)
@@ -30,7 +30,7 @@ export const useAuthSrore = create((set)=>({
     confirmEmail: async (code)=>{
         set({isloading: true, error: null})
         try {
-            const response = await axios.put(`http://localhost:5000/auth/confirmEmail`,{code})
+            const response = await axios.put(`${API_URL}confirmEmail`,{code})
             set({user: response.data.user, isloading: false, error: null, isConfirmed: true, isAuthanticated:true})
         } catch (error) {
             set({isloading: false, error: error.response.data.message|| "Confirming Email Failed..!", isConfirmed: false, isAuthanticated: false})
@@ -45,7 +45,7 @@ export const useAuthSrore = create((set)=>({
         const token = localStorage.getItem('token')
         // if(!token) 
         try {
-            const response = await axios.get('http://localhost:5000/auth/check-Auth',{
+            const response = await axios.get(`${API_URL}check-Auth`,{
                 headers: {
                     token
                 }
@@ -60,7 +60,7 @@ export const useAuthSrore = create((set)=>({
     login: async(email, password)=>{
         try {
             set({isloading: true, error: null})
-            const response = await axios.post('http://localhost:5000/auth/login',{email, password})
+            const response = await axios.post(`${API_URL}login`,{email, password})
             // console.log(response);
             
             localStorage.setItem('token', response.data?.token)
@@ -73,7 +73,7 @@ export const useAuthSrore = create((set)=>({
     logOut: async ()=>{
         set({isloading: true, error: null})
         try {
-            const response = await axios.post('http://localhost:5000/auth/logout').then(response => {
+            const response = await axios.post(`${API_URL}logout`).then(response => {
                 localStorage.removeItem('token');
                 console.log(response.data.message);
                 set({isloading: false, error: null, isAuthanticated: false})
@@ -86,7 +86,7 @@ export const useAuthSrore = create((set)=>({
     forgetPassword: async (email)=>{
         set({isloading: true, error: null})
         try {
-            const response = await axios.post('http://localhost:5000/auth/forgetPassword', {email})
+            const response = await axios.post(`${API_URL}forgetPassword`, {email})
             set({isloading: false, error: null})
         } catch (error) {
             set({isloading: false, error: error.response.data.message || 'Error in Sending Url To Reset Password'})
@@ -96,7 +96,7 @@ export const useAuthSrore = create((set)=>({
     resetPassword: async (token, password)=>{
         set({isloading: true, error: null})
         try {
-            const response = await axios.post(`http://localhost:5000/auth/resetPassword/${token}`, {password})
+            const response = await axios.post(`${API_URL}resetPassword/${token}`, {password})
             set({isloading: false, error: null})
         } catch (error) {
             set({isloading: false, error: error.response.data.message || 'Error in Reset Password'})

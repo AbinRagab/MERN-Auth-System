@@ -2,12 +2,6 @@ import { Check, X } from 'lucide-react'
 
 const PasswordCriteria = ({password})=>{
 
-
-    console.log(password?.length >= 6);
-    console.log(password?.length > 0 && /[a-z]/.test(password));
-    console.log(/[A-Z]/.test(password));
-    console.log( /\d/.test(password));
-    console.log(/[^a-zA-Z0-9]/.test(password));
     
     
     const criteria = [
@@ -59,7 +53,6 @@ const PasswordCheck = ({password}) => {
 
 
     const getColor = (strength)=>{
-        console.log(strength);
         
         if(strength == 0) return "bg-red-400"
         if(strength == 1) return "bg-red-500"
